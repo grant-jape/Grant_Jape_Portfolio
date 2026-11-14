@@ -2,7 +2,7 @@
 
 The "CEO" of a digital media store needs to understand why revenue is fluctuating. The data is siloed across seven messy PostgreSQL tables with missing customer info, inconsistent formatting, and no clear view of revenue per customer.
 
-**Case study:** [grant-jape.github.io/Grant_Jape_Portfolio/work/revenue-integrity-audit.html](https://grant-jape.github.io/Grant_Jape_Portfolio/work/revenue-integrity-audit.html)
+**Case study:** [grantjape.com/work/revenue-integrity-audit.html](https://grantjape.com/work/revenue-integrity-audit.html)
 
 ## What's here
 

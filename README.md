@@ -2,7 +2,7 @@
 
 **Data Scientist** specializing in **Predictive Modeling, Data Visualization, and ETL Pipelines** to drive **Marketing and Product Strategy**.
 
-**Portfolio site:** [grant-jape.github.io/Grant_Jape_Portfolio](https://grant-jape.github.io/Grant_Jape_Portfolio/) · [LinkedIn](https://www.linkedin.com/in/grantjamesjape/) · [Email](mailto:grantjape@gmail.com)
+**Portfolio site:** [grantjape.com](https://grantjape.com/) · [LinkedIn](https://www.linkedin.com/in/grantjamesjape/) · [Email](mailto:grantjape@gmail.com)
 
 ## Projects
 
