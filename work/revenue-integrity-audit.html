@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Revenue Integrity Audit · Grant Jape</title>
+  <meta name="description" content="A PostgreSQL ETL and audit that rebuilt seven messy tables into an analytics schema and found 244 oversold products.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2313202e'/%3E%3Ccircle cx='10' cy='21' r='3' fill='%2345c1b5'/%3E%3Ccircle cx='16' cy='15' r='3' fill='%2345c1b5'/%3E%3Ccircle cx='22' cy='9' r='3' fill='%23f0a058'/%3E%3C/svg%3E">
+  <script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SWWLNMZPBS"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-SWWLNMZPBS");</script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="../"><span class="brand-mark">GJ</span>Grant Jape</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../#work" aria-current="page">Work</a>
+        <a href="../#skills" class="hide-sm">Skills</a>
+        <a href="../#background" class="hide-sm">Background</a>
+        <a href="https://docs.google.com/document/d/1X_1XXwFACcReXwQoeo0eHw0murb-CuE3/edit?usp=sharing" target="_blank" rel="noopener">Résumé</a>
+        <button class="theme-toggle" type="button" aria-label="Switch light or dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="case-hero">
+      <div class="wrap">
+        <a class="crumb" href="../#work">← All work</a>
+        <span class="label">SQL · ETL · Data quality</span>
+        <h1>Revenue and customer integrity audit</h1>
+        <p class="lede">The CEO of a digital media store wants to know why revenue swings. The data sits in seven messy tables, with missing customer details, inconsistent formatting and no clear view of revenue per customer. I rebuilt it into a clean analytics layer in PostgreSQL, audited it, and found a problem nobody had asked about.</p>
+        <dl class="model-card">
+          <div><dt class="label">Question</dt><dd>Why does revenue fluctuate, and can the data be trusted to answer that?</dd></div>
+          <div><dt class="label">Data</dt><dd>7 raw tables in PostgreSQL, including customers, orders, order lines, products and inventory</dd></div>
+          <div><dt class="label">Method</dt><dd>Staging-to-analytics ETL, audit queries, CTEs and window functions</dd></div>
+          <div><dt class="label">Result</dt><dd><b>244 SKUs</b> oversold · <b>1,969</b> units of deficit · a fix proposed</dd></div>
+        </dl>
+        <div class="actions"><a class="btn" href="https://github.com/grant-jape/Grant_Jape_Portfolio/tree/main/projects/revenue-integrity-audit" target="_blank" rel="noopener">SQL on GitHub ↗</a></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap prose">
+        <h2>1 · Keep raw and clean apart</h2>
+        <p>I never edit the source tables. Raw data stays in <code>public</code>, and cleaned, analysis-ready tables go in a separate <code>analytics</code> schema. The original is always there to check against, and analysts query one tidy layer.</p>
+        <div class="diagram" aria-label="Data flow from raw tables through cleaning into the analytics schema">
+          <div class="node"><span class="label">public · raw</span><span>customers, orders, orderlines, products, categories, inventory</span></div>
+          <span class="arrow">→</span>
+          <div class="node"><span class="label">ETL</span><span>fix casing and nulls, reject impossible ages, join categories, compute revenue</span></div>
+          <span class="arrow">→</span>
+          <div class="node hl"><span class="label">analytics · clean</span><span>customers, products, <b>sales</b> (one row per order line)</span></div>
+        </div>
+<pre class="code"><span class="c">-- one source of truth for revenue: one row per order line</span>
+<span class="k">CREATE TABLE</span> analytics.sales <span class="k">AS</span>
+<span class="k">SELECT</span> ol.orderlineid, o.orderid, o.orderdate, o.customerid, ol.prod_id, ol.quantity,
+       p.price <span class="k">AS</span> unit_price,
+       (ol.quantity * p.price) <span class="k">AS</span> total_revenue
+<span class="k">FROM</span> public.orderlines ol
+<span class="k">JOIN</span> public.orders   o <span class="k">ON</span> ol.orderid = o.orderid
+<span class="k">JOIN</span> public.products p <span class="k">ON</span> ol.prod_id = p.prod_id;</pre>
+
+        <h2>2 · Audit before you analyze</h2>
+        <p>Before reporting a single revenue number, I ran three checks. Orphaned sales (a sale whose customer doesn't exist) and negative revenue both came back clean. The third, an inventory reconciliation, did not.</p>
+<pre class="code"><span class="k">WITH</span> sales_summary <span class="k">AS</span> (
+    <span class="k">SELECT</span> prod_id, <span class="k">SUM</span>(quantity) <span class="k">AS</span> total_units_sold
+    <span class="k">FROM</span> analytics.sales <span class="k">GROUP BY</span> prod_id
+)
+<span class="k">SELECT</span> p.prod_id, p.title,
+       i.quan_in_stock <span class="k">AS</span> current_inventory,
+       s.total_units_sold,
+       (i.quan_in_stock - s.total_units_sold) <span class="k">AS</span> inventory_buffer
+<span class="k">FROM</span> analytics.products p
+<span class="k">JOIN</span> public.inventory i <span class="k">ON</span> p.prod_id = i.prod_id
+<span class="k">LEFT JOIN</span> sales_summary s <span class="k">ON</span> p.prod_id = s.prod_id
+<span class="k">WHERE</span> (i.quan_in_stock - s.total_units_sold) &lt; 0
+<span class="k">ORDER BY</span> inventory_buffer;</pre>
+        <div class="metrics"><span class="metric warn"><b>244</b> SKUs sold beyond stock</span><span class="metric warn"><b>1,969</b> units of combined deficit</span></div>
+        <p>These are high-velocity products where recorded sales exceed what was ever in stock. The sales system lets customers buy items that don't exist, which means unfillable orders, refunds and support tickets.</p>
+
+        <h3>The fix I proposed to inventory and engineering</h3>
+        <div class="diagram">
+          <div class="node"><span class="label">Tier 1 · Early warning</span><span>When inventory drops below 10% of average weekly sales, automatically raise a restock request, so purchasing orders before stock runs out.</span></div>
+          <div class="node hl"><span class="label">Tier 2 · Hard stop</span><span>At "Add to cart", check the buffer. If it can't cover the order, disable purchase and show "Out of stock" or "Pre-order".</span></div>
+        </div>
+        <p>Together they remove the negative-inventory problem for these SKUs at the source and stop the refunds and support load it creates.</p>
+
+        <h2>3 · Then answer the CEO's questions</h2>
+        <p>With a trusted sales table, the business questions become straightforward SQL:</p>
+        <ul>
+          <li><b>Month-over-month revenue</b>, using <code>LAG()</code> to compare each month with the one before, and <code>NULLIF</code> to avoid dividing by zero.</li>
+          <li><b>The top 1% of customers</b> by lifetime spend with <code>PERCENT_RANK()</code>, plus each one's favorite category via <code>ROW_NUMBER()</code> partitioned by customer.</li>
+          <li><b>The five states with the highest average order value</b>, counting distinct orders (not order lines) and ignoring states with 10 or fewer orders, so a single big purchase can't top the list.</li>
+        </ul>
+<pre class="code"><span class="c">-- top 5 states by average order value</span>
+<span class="k">SELECT</span> c.state,
+       <span class="k">ROUND</span>(<span class="k">SUM</span>(s.total_revenue)::numeric, 2)       <span class="k">AS</span> total_state_revenue,
+       <span class="k">COUNT</span>(<span class="k">DISTINCT</span> s.orderid)                     <span class="k">AS</span> total_orders,
+       <span class="k">ROUND</span>((<span class="k">SUM</span>(s.total_revenue) / <span class="k">COUNT</span>(<span class="k">DISTINCT</span> s.orderid))::numeric, 2) <span class="k">AS</span> average_order_value
+<span class="k">FROM</span> analytics.sales s
+<span class="k">JOIN</span> analytics.customers c <span class="k">ON</span> s.customerid = c.customerid
+<span class="k">GROUP BY</span> 1
+<span class="k">HAVING</span> <span class="k">COUNT</span>(<span class="k">DISTINCT</span> s.orderid) &gt; 10
+<span class="k">ORDER BY</span> average_order_value <span class="k">DESC</span>
+<span class="k">LIMIT</span> 5;</pre>
+        <div class="callout teal"><p><b>The takeaway:</b> moving from reactive reporting to trusted, proactive analytics starts with the boring part. The most valuable finding here came from an audit query, not from a dashboard.</p></div>
+
+        <div class="next-case"><a href="marketing-mix-model.html">← Marketing mix model</a><a href="superstore-dashboard.html">Next: Superstore dashboard →</a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap"><span>© 2026 Grant Jape</span><span><a href="https://github.com/grant-jape/Grant_Jape_Portfolio">View source</a></span></div></footer>
+  <script src="../assets/js/site.js"></script>
+</body>
+</html>
