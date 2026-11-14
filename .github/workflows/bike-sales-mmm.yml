@@ -13,6 +13,11 @@ on:
 permissions:
   contents: write
 
+# Both project workflows commit to main; queue them so they never push at the same time.
+concurrency:
+  group: project-analysis-autocommit
+  cancel-in-progress: false
+
 defaults:
   run:
     working-directory: projects/bike-sales-mmm   # scripts use paths relative to the project folder
@@ -22,6 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main   # start from the latest main, including any earlier bot commit
 
       - uses: actions/setup-python@v5
         with:
