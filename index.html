@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Grant Jape · Data Scientist</title>
+  <meta name="description" content="Grant Jape is a data scientist who builds predictive models, marketing mix models and SQL pipelines that explain why the numbers move.">
+  <meta property="og:title" content="Grant Jape · Data Scientist">
+  <meta property="og:description" content="Predictive modeling, marketing mix modeling and SQL analytics, with the code and data behind every result.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2313202e'/%3E%3Ccircle cx='10' cy='21' r='3' fill='%2345c1b5'/%3E%3Ccircle cx='16' cy='15' r='3' fill='%2345c1b5'/%3E%3Ccircle cx='22' cy='9' r='3' fill='%23f0a058'/%3E%3C/svg%3E">
+  <script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <!-- Google Analytics (carried over from the previous site) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SWWLNMZPBS"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-SWWLNMZPBS");</script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="./"><span class="brand-mark">GJ</span>Grant Jape</a>
+      <nav class="nav" aria-label="Main">
+        <a href="#work">Work</a>
+        <a href="#skills" class="hide-sm">Skills</a>
+        <a href="#background" class="hide-sm">Background</a>
+        <a href="https://docs.google.com/document/d/1X_1XXwFACcReXwQoeo0eHw0murb-CuE3/edit?usp=sharing" target="_blank" rel="noopener">Résumé</a>
+        <button class="theme-toggle" type="button" aria-label="Switch light or dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-copy">
+          <span class="label">Data Scientist · Predictive modeling · Marketing mix · SQL</span>
+          <h1>I build models that explain <em>why</em> the numbers move.</h1>
+          <p class="lede">Eight years of turning messy data into forecasts, budget decisions and dashboards people actually use. Every project here links to the code and data behind it.</p>
+          <div class="actions">
+            <a class="btn primary" href="#work">See the work</a>
+            <a class="btn" href="https://www.linkedin.com/in/grantjamesjape/" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+
+        <figure class="figure-card">
+          <div class="figure-head">
+            <h2>What drives insurance cost? <span class="num" id="claims-n">1,338</span> policyholders</h2>
+            <div class="legend" aria-hidden="true"><span><i style="background:var(--teal)"></i>Non-smoker</span><span><i style="background:var(--amber)"></i>Smoker</span></div>
+          </div>
+          <div class="chart-box">
+            <canvas id="claims-scatter" data-src="projects/claims-model/data/insurance.csv" role="img" aria-label="Scatter plot of age against annual insurance charges. Smokers sit in a band roughly 20,000 to 40,000 dollars above non-smokers at every age."></canvas>
+            <div class="chart-tip" id="claims-tip" hidden></div>
+          </div>
+          <figcaption class="figure-note">Each dot is one policy from the dataset behind my <a href="work/insurance-cost-model.html">claims model</a>, drawn live from the CSV. Lines are the average charge by age. Hover a dot.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Highlights">
+      <div class="wrap">
+        <div class="stat"><b>8+ yrs</b><span>building and shipping models</span></div>
+        <div class="stat"><b>R² 0.874</b><span>insurance cost model, in dollars</span></div>
+        <div class="stat"><b>260 wks</b><span>of media spend in the MMM</span></div>
+        <div class="stat"><b>244 SKUs</b><span>oversold, caught by a SQL audit</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="work">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="label">Selected work</span>
+          <h2>Four projects, one habit: show the reasoning</h2>
+          <p>Each case study walks from the business question to the data, the method, and what I would tell a stakeholder to do next.</p>
+        </div>
+
+        <div class="projects">
+          <a class="project" href="work/insurance-cost-model.html">
+            <div class="project-body">
+              <span class="label">Machine learning · Regression</span>
+              <h3>Medical insurance cost prediction</h3>
+              <p>What makes one policyholder cost four times more than another? I compared four models on 1,338 policies and tuned a gradient-boosted model that lands within about $2,000 of the real charge on average.</p>
+              <div class="metrics"><span class="metric">R² <b>0.874</b></span><span class="metric">MAE <b>$1,975</b></span><span class="metric">4 models compared</span></div>
+              <div class="tags"><span>Python</span><span>scikit-learn</span><span>GridSearchCV</span><span>Matplotlib</span></div>
+              <span class="more">Read the case study →</span>
+            </div>
+            <div class="project-thumb"><img src="projects/claims-model/charts/fit.png" alt="Actual against predicted log charges, tightly clustered around the diagonal" loading="lazy"></div>
+          </a>
+
+          <a class="project" href="work/marketing-mix-model.html">
+            <div class="project-body">
+              <span class="label">Econometrics · Marketing</span>
+              <h3>Marketing mix model for bike sales</h3>
+              <p>Five years of weekly spend across six channels, modeled with adstock carryover and diminishing returns. The result: put budget into search first, and audit print and outdoor, which showed negative lift.</p>
+              <div class="metrics"><span class="metric">R² <b>0.731</b></span><span class="metric">6 channels</span><span class="metric warn">2 channels <b>negative</b></span></div>
+              <div class="tags"><span>Python</span><span>statsmodels</span><span>Adstock</span><span>GitHub Actions</span></div>
+              <span class="more">Read the case study →</span>
+            </div>
+            <div class="project-thumb"><img src="projects/bike-sales-mmm/charts/channel_sensitivity_bar_chart.png" alt="Bar chart of sales lift by channel, led by nonbranded search" loading="lazy"></div>
+          </a>
+
+          <a class="project" href="work/revenue-integrity-audit.html">
+            <div class="project-body">
+              <span class="label">SQL · ETL · Data quality</span>
+              <h3>Revenue and customer integrity audit</h3>
+              <p>Seven messy tables in PostgreSQL, rebuilt into a clean analytics schema. The reconciliation audit found 244 products sold beyond their stock, and led to a two-tier fix for the inventory and engineering teams.</p>
+              <div class="metrics"><span class="metric warn"><b>244</b> SKUs oversold</span><span class="metric warn"><b>1,969</b> unit deficit</span><span class="metric">7 source tables</span></div>
+              <div class="tags"><span>PostgreSQL</span><span>CTEs</span><span>Window functions</span><span>Star schema</span></div>
+              <span class="more">Read the case study →</span>
+            </div>
+            <div class="project-thumb code" aria-hidden="true"><pre><span class="c">-- products sold beyond stock</span>
+<span class="k">SELECT</span> p.prod_id, p.title,
+  (i.quan_in_stock - s.total_units_sold)
+    <span class="k">AS</span> inventory_buffer
+<span class="k">FROM</span> analytics.products p
+<span class="k">JOIN</span> public.inventory i <span class="k">ON</span> p.prod_id = i.prod_id
+<span class="k">LEFT JOIN</span> sales_summary s <span class="k">ON</span> p.prod_id = s.prod_id
+<span class="k">WHERE</span> (i.quan_in_stock - s.total_units_sold) &lt; 0;</pre></div>
+          </a>
+
+          <a class="project" href="work/superstore-dashboard.html">
+            <div class="project-body">
+              <span class="label">Data visualization · BI</span>
+              <h3>Superstore performance dashboard</h3>
+              <p>An interactive Tableau dashboard of top KPIs and the link between sales and profitability, designed so an executive can find the answer without a walkthrough.</p>
+              <div class="metrics"><span class="metric">Interactive</span><span class="metric">Tableau Public</span></div>
+              <div class="tags"><span>Tableau</span><span>Dashboard design</span><span>KPI reporting</span></div>
+              <span class="more">Open the dashboard →</span>
+            </div>
+            <div class="project-thumb"><img src="https://public.tableau.com/static/images/Su/SuperstorePerformanceDashboard_17752568881510/SuperstorePerformanceDashboard/1.png" alt="Preview of the Superstore performance dashboard" loading="lazy" onerror="var p=document.createElement('pre');p.textContent='Live on Tableau Public ↗';this.parentNode.classList.add('code');this.replaceWith(p)"></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="label">Toolkit</span>
+          <h2>What I bring to a team</h2>
+        </div>
+        <div class="skills">
+          <div class="skill">
+            <h3>Machine learning and modeling</h3>
+            <p>End-to-end model training, tuning and validation in Python. Regression, classification, clustering, gradient boosting, XGBoost and neural networks. Statistical analysis in R.</p>
+            <div class="tags"><span>Python</span><span>scikit-learn</span><span>XGBoost</span><span>R</span></div>
+          </div>
+          <div class="skill">
+            <h3>Visualization and BI</h3>
+            <p>Custom Dash and Plotly apps, plus Tableau, Power BI and Looker Studio dashboards for internal teams and clients.</p>
+            <div class="tags"><span>Dash</span><span>Plotly</span><span>Tableau</span><span>Power BI</span><span>Looker Studio</span></div>
+          </div>
+          <div class="skill">
+            <h3>Data engineering and ETL</h3>
+            <p>Expert SQL (CTEs, window functions, complex joins), automated data collection, and DataOps pipelines that keep models monitored after launch.</p>
+            <div class="tags"><span>SQL</span><span>PostgreSQL</span><span>GitHub Actions</span></div>
+          </div>
+          <div class="skill">
+            <h3>Business strategy</h3>
+            <p>Revenue and time-series forecasting, KPI monitoring, cross-channel campaign optimization, A/B testing and executive reporting.</p>
+            <div class="tags"><span>Forecasting</span><span>MMM</span><span>A/B testing</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="background">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="label">Education</span>
+          <h2>Two master's degrees, one in each half of the job</h2>
+          <p>Statistics for knowing when a result is real, machine learning for putting it into production.</p>
+        </div>
+        <div class="timeline">
+          <div class="tl-item"><span class="when">2024 – 2025</span><div><h3>International Master in Data Science and Machine Learning</h3><p>Rome Business School</p></div></div>
+          <div class="tl-item"><span class="when">2019 – 2021</span><div><h3>Master in Statistics and Analytics</h3><p>Azusa Pacific University · Summa Cum Laude · GPA 3.8+</p></div></div>
+          <div class="tl-item"><span class="when">2013 – 2017</span><div><h3>Bachelor in Communication</h3><p>Azusa Pacific University</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="wrap">
+        <span class="label" style="color:inherit;opacity:.7">Contact</span>
+        <h2>Have a question your data should be able to answer?</h2>
+        <p>I'm open to data science roles and projects. Email is the fastest way to reach me: <span class="mono">grantjape@gmail.com</span></p>
+        <div class="actions">
+          <a class="btn primary" href="mailto:grantjape@gmail.com">Email me</a>
+          <button class="btn" type="button" data-copy="grantjape@gmail.com">Copy email</button>
+          <a class="btn" href="https://www.linkedin.com/in/grantjamesjape/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Grant Jape</span>
+      <span>Hand-built, hosted on GitHub Pages · <a href="https://github.com/grant-jape/Grant_Jape_Portfolio">View source</a></span>
+    </div>
+  </footer>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>

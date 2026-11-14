@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Insurance Cost Model · Grant Jape</title>
+  <meta name="description" content="A gradient-boosted model that predicts medical insurance charges within about $2,000, and shows smoking as the dominant cost driver.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2313202e'/%3E%3Ccircle cx='10' cy='21' r='3' fill='%2345c1b5'/%3E%3Ccircle cx='16' cy='15' r='3' fill='%2345c1b5'/%3E%3Ccircle cx='22' cy='9' r='3' fill='%23f0a058'/%3E%3C/svg%3E">
+  <script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SWWLNMZPBS"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-SWWLNMZPBS");</script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="../"><span class="brand-mark">GJ</span>Grant Jape</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../#work" aria-current="page">Work</a>
+        <a href="../#skills" class="hide-sm">Skills</a>
+        <a href="../#background" class="hide-sm">Background</a>
+        <a href="https://docs.google.com/document/d/1X_1XXwFACcReXwQoeo0eHw0murb-CuE3/edit?usp=sharing" target="_blank" rel="noopener">Résumé</a>
+        <button class="theme-toggle" type="button" aria-label="Switch light or dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="case-hero">
+      <div class="wrap">
+        <a class="crumb" href="../#work">← All work</a>
+        <span class="label">Machine learning · Regression</span>
+        <h1>Medical insurance cost prediction</h1>
+        <p class="lede">What makes one policyholder cost four times more than another? I explored 1,338 policies, engineered risk features, compared four models and tuned the winner. It predicts annual charges within about $2,000 on average.</p>
+        <dl class="model-card">
+          <div><dt class="label">Question</dt><dd>Which traits drive medical insurance charges, and how well can we predict them?</dd></div>
+          <div><dt class="label">Data</dt><dd>1,338 policyholders · 6 features · charges in USD</dd></div>
+          <div><dt class="label">Method</dt><dd>Gradient boosting on log(charges), tuned with 5-fold GridSearchCV</dd></div>
+          <div><dt class="label">Result</dt><dd><b>R² 0.874</b> · MAE $1,975 · RMSE $4,418 (in dollars)</dd></div>
+        </dl>
+        <div class="actions"><a class="btn" href="https://github.com/grant-jape/Grant_Jape_Portfolio/tree/main/projects/claims-model" target="_blank" rel="noopener">Code and data on GitHub ↗</a></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap prose">
+        <h2>1 · What the data says before any model</h2>
+        <p>Each record is one primary beneficiary: age, sex, BMI, number of children covered, smoker status, US region and the annual charge. Charges run from $1,122 to $63,770, with a median of $9,382 and a mean of $13,270. A mean that far above the median means a long tail of very expensive policies.</p>
+
+        <figure class="wide">
+          <img src="../projects/claims-model/charts/scatterplots.png" alt="Two scatter plots: age against charges and BMI against charges, coloured by smoker status" loading="lazy">
+          <figcaption>Smokers (red) sit far above non-smokers at nearly every age and BMI, and the gap widens for older and higher-BMI people. Smoking is the single strongest driver, and it compounds with age and BMI.</figcaption>
+        </figure>
+
+        <div class="table-scroll wide" style="max-width:640px">
+          <table>
+            <thead><tr><th>Annual charges</th><th class="n">Non-smoker</th><th class="n">Smoker</th></tr></thead>
+            <tbody>
+              <tr><td>Policies</td><td class="n">1,064</td><td class="n">274</td></tr>
+              <tr><td>Mean</td><td class="n">$8,434</td><td class="n">$32,050</td></tr>
+              <tr><td>Median</td><td class="n">$7,345</td><td class="n">$34,456</td></tr>
+              <tr><td>Std dev</td><td class="n">$5,994</td><td class="n">$11,542</td></tr>
+              <tr><td>Max</td><td class="n">$36,911</td><td class="n">$63,770</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Smokers average <b>about 4× the cost</b> of non-smokers, and their costs vary twice as much.</p>
+
+        <div class="fig-grid wide">
+          <figure>
+            <img src="../projects/claims-model/charts/distributions.png" alt="Histogram of charges, right-skewed, next to a much more symmetric histogram of log charges" loading="lazy">
+            <figcaption>Raw charges are right-skewed. On a log scale they are close to normal, so I model log(charges) and convert predictions back to dollars.</figcaption>
+          </figure>
+          <figure>
+            <img src="../projects/claims-model/charts/corr.png" alt="Correlation heatmap; smoker has the strongest correlation with log charges" loading="lazy">
+            <figcaption>Smoker status correlates most with log charges (about +0.67), then age (about +0.53). BMI, sex and region are weaker.</figcaption>
+          </figure>
+        </div>
+
+        <h2>2 · Features that encode health risk</h2>
+        <p>The scatter plots show the smoking effect gets much larger for people with obesity. A linear model can't see that on its own, so I gave it three explicit features:</p>
+<pre class="code"><span class="c"># BMI of 30 or more is the clinical threshold for obesity</span>
+df[<span class="k">'is_obese'</span>] = (df[<span class="k">'bmi'</span>] &gt;= 30).astype(int)
+
+<span class="c"># the combination is far costlier than either trait alone</span>
+df[<span class="k">'smoker_obese_interaction'</span>] = ((df[<span class="k">'smoker'</span>] == <span class="k">'yes'</span>) &amp; (df[<span class="k">'is_obese'</span>] == 1)).astype(int)
+
+<span class="c"># life stages rather than a straight line in age</span>
+df[<span class="k">'age_group'</span>] = pd.cut(df[<span class="k">'age'</span>], bins=[18, 30, 45, 65, 100],
+                         labels=[<span class="k">'Young_Adult'</span>, <span class="k">'Middle_Adult'</span>, <span class="k">'Senior_Adult'</span>, <span class="k">'Elderly'</span>], right=False)</pre>
+
+        <h2>3 · Four models, one held-out test set</h2>
+        <p>I one-hot encoded the categories, held out 20% of policies for testing, and trained four regressors on log(charges). Lower error is better; R² is the share of variation the model explains.</p>
+        <div class="table-scroll wide" style="max-width:640px">
+          <table>
+            <thead><tr><th>Model (log scale, test set)</th><th class="n">MAE</th><th class="n">RMSE</th><th class="n">R²</th></tr></thead>
+            <tbody>
+              <tr><td>Linear regression</td><td class="n">0.254</td><td class="n">0.401</td><td class="n">0.821</td></tr>
+              <tr><td>Decision tree</td><td class="n">0.188</td><td class="n">0.419</td><td class="n">0.804</td></tr>
+              <tr><td>Random forest</td><td class="n">0.197</td><td class="n">0.374</td><td class="n">0.844</td></tr>
+              <tr class="best"><td>Gradient boosting</td><td class="n">0.184</td><td class="n">0.347</td><td class="n">0.866</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Linear regression can't bend around the interactions. The tree ensembles can, and gradient boosting did best on every metric.</p>
+
+        <h3>Tuning</h3>
+        <p>A 5-fold grid search over 384 combinations of trees, learning rate, depth, split size and subsampling picked a slow, shallow model: 500 trees at a 0.01 learning rate, depth 3, with 80% subsampling. Shallow trees and subsampling keep it from memorising the training data. Train and test scores came out almost identical (R² 0.857 vs 0.866), so it generalises.</p>
+
+        <figure class="wide" style="max-width:720px">
+          <img src="../projects/claims-model/charts/fit.png" alt="Actual against predicted log charges, clustered along the diagonal" loading="lazy">
+          <figcaption>Actual against predicted (log scale). Points hug the diagonal across the whole range.</figcaption>
+        </figure>
+
+        <h2>4 · What it means in dollars</h2>
+        <div class="metrics"><span class="metric">R² <b>0.874</b></span><span class="metric">MAE <b>$1,975</b></span><span class="metric">RMSE <b>$4,418</b></span></div>
+        <p>Back in dollars, the typical prediction is within about $2,000 of the real charge. RMSE is higher because it weights the rare very expensive policies more heavily, and those are the hardest to predict. The most important features were smoking, age, number of children and BMI.</p>
+        <div class="callout teal"><p><b>What I'd tell a pricing team:</b> smoking status is the lever. Combined with obesity it explains most of the extreme claims, so it belongs at the centre of any risk tier, while sex adds almost nothing.</p></div>
+
+        <div class="next-case"><a href="../#work">← All work</a><a href="marketing-mix-model.html">Next: Marketing mix model →</a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap"><span>© 2026 Grant Jape</span><span><a href="https://github.com/grant-jape/Grant_Jape_Portfolio">View source</a></span></div></footer>
+  <script src="../assets/js/site.js"></script>
+</body>
+</html>

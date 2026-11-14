@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Bike Sales Mix Model · Grant Jape</title>
+  <meta name="description" content="A marketing mix model with adstock and saturation that ranks six channels by sales lift and flags print and outdoor for review.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2313202e'/%3E%3Ccircle cx='10' cy='21' r='3' fill='%2345c1b5'/%3E%3Ccircle cx='16' cy='15' r='3' fill='%2345c1b5'/%3E%3Ccircle cx='22' cy='9' r='3' fill='%23f0a058'/%3E%3C/svg%3E">
+  <script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SWWLNMZPBS"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-SWWLNMZPBS");</script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="../"><span class="brand-mark">GJ</span>Grant Jape</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../#work" aria-current="page">Work</a>
+        <a href="../#skills" class="hide-sm">Skills</a>
+        <a href="../#background" class="hide-sm">Background</a>
+        <a href="https://docs.google.com/document/d/1X_1XXwFACcReXwQoeo0eHw0murb-CuE3/edit?usp=sharing" target="_blank" rel="noopener">Résumé</a>
+        <button class="theme-toggle" type="button" aria-label="Switch light or dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="case-hero">
+      <div class="wrap">
+        <a class="crumb" href="../#work">← All work</a>
+        <span class="label">Econometrics · Marketing</span>
+        <h1>Marketing mix model for bike sales</h1>
+        <p class="lede">Which marketing channels actually sell bikes, once you account for ads that keep working after they air and channels that stop paying off at high spend? I modeled five years of weekly data to answer that and turn it into a budget recommendation.</p>
+        <dl class="model-card">
+          <div><dt class="label">Question</dt><dd>How much incremental sales does each channel drive?</dd></div>
+          <div><dt class="label">Data</dt><dd>260 weeks (Jul 2017 on) · 7 spend channels · weekly sales</dd></div>
+          <div><dt class="label">Method</dt><dd>OLS on geometric adstock (λ = 0.5) and log saturation</dd></div>
+          <div><dt class="label">Result</dt><dd><b>R² 0.731</b> · all 6 channels significant (p &lt; 0.01)</dd></div>
+        </dl>
+        <div class="actions"><a class="btn" href="https://github.com/grant-jape/Grant_Jape_Portfolio/tree/main/projects/bike-sales-mmm" target="_blank" rel="noopener">Code and data on GitHub ↗</a></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap prose">
+        <h2>1 · A problem the data forced first</h2>
+        <p>Exploratory analysis turned up a perfect correlation (r = 1.00) between branded search spend and Facebook spend. They always moved together, so no model can separate their effects, and regression estimates become unstable. I combined them into one feature, <code>Search &amp; Facebook</code>, which left six channels to model.</p>
+        <figure style="max-width:620px">
+          <img src="../projects/bike-sales-mmm/charts/spend_correlation_matrix.png" alt="Correlation matrix of marketing spend channels; branded search and Facebook correlate at 1.00" loading="lazy">
+          <figcaption>Spend correlation matrix. The 1.00 between branded search and Facebook is why they're modeled as one channel.</figcaption>
+        </figure>
+        <p>After the merge, the condition number (a standard check for features that overlap too much) came out at 461, comfortably stable.</p>
+
+        <h2>2 · Two transformations that make it a real MMM</h2>
+        <p>Plain regression treats each week's spend as if it only affects that same week, with every extra dollar worth as much as the first. Neither is true of advertising. So every spend series gets two transformations first:</p>
+        <ul>
+          <li><b>Geometric adstock</b> carries part of each week's effect into the next: <code>A<sub>t</sub> = spend<sub>t</sub> + λ · A<sub>t−1</sub></code>. With λ = 0.5, half of the effect carries over each week.</li>
+          <li><b>Log saturation</b>, <code>ln(A + 1)</code>, builds in diminishing returns: doubling spend doesn't double sales.</li>
+        </ul>
+
+        <div class="explorer" role="group" aria-labelledby="explorer-title">
+          <div class="figure-head">
+            <h3 id="explorer-title" style="font-family:var(--font-body);font-size:1rem">Try it: how carryover reshapes a flighting plan</h3>
+            <div class="legend" aria-hidden="true"><span><i style="background:var(--rule)"></i>Spend</span><span><i style="background:var(--teal)"></i>Adstock</span><span><i style="background:var(--amber)"></i>After saturation</span></div>
+          </div>
+          <div class="explorer-controls">
+            <label for="adstock-lambda">Carryover λ <input id="adstock-lambda" type="range" min="0" max="0.9" step="0.05" value="0.5"></label>
+            <div><span class="label">λ</span> <output id="adstock-out" for="adstock-lambda">0.50</output></div>
+            <div><span class="label">Half-life</span> <output id="adstock-half">1.0 weeks</output></div>
+          </div>
+          <div class="chart-box" style="aspect-ratio: 16 / 6"><canvas id="adstock-canvas" role="img" aria-label="Spend bursts and the adstocked response, which decays more slowly as lambda increases"></canvas></div>
+          <p class="figure-note">An illustrative 26-week plan, not the project data. Raise λ and each burst's effect lasts longer. The saturated line (rescaled) flattens the peaks, which is why heavy bursts earn less per dollar.</p>
+        </div>
+
+        <h2>3 · How well it fits</h2>
+        <figure class="wide">
+          <img src="../projects/bike-sales-mmm/charts/actual_vs_predicted_sales.png" alt="Weekly actual and predicted sales over the full period; the lines track closely" loading="lazy">
+          <figcaption>Predicted sales track the actual weekly line across the full period. The model explains 73.1% of the variance in sales (R² 0.731), and the overall F-test is significant (p &lt; 0.001).</figcaption>
+        </figure>
+
+        <h2>4 · Which channels move sales</h2>
+        <p>Each coefficient is the change in weekly sales for a one-unit increase in that channel's transformed (adstocked, log-saturated) spend. All six are statistically significant.</p>
+        <div class="bars wide" style="max-width:720px" aria-label="Sales lift coefficient by channel"
+             data-bars='[["Nonbranded Search",27397.2],["Search & Facebook",10891.06],["Radio",1415.73],["TV",750.99],["OOH",-749.44],["Print",-918.53]]'></div>
+        <div class="table-scroll wide" style="max-width:720px">
+          <table>
+            <thead><tr><th>Channel</th><th class="n">Coefficient</th><th class="n">p-value</th></tr></thead>
+            <tbody>
+              <tr><td>Nonbranded Search</td><td class="n">27,397.20</td><td class="n">&lt; 0.0001</td></tr>
+              <tr><td>Search &amp; Facebook</td><td class="n">10,891.06</td><td class="n">&lt; 0.0001</td></tr>
+              <tr><td>Radio</td><td class="n">1,415.73</td><td class="n">&lt; 0.0001</td></tr>
+              <tr><td>TV</td><td class="n">750.99</td><td class="n">0.0052</td></tr>
+              <tr><td>OOH</td><td class="n">−749.44</td><td class="n">0.0030</td></tr>
+              <tr><td>Print</td><td class="n">−918.53</td><td class="n">&lt; 0.0001</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>5 · What I'd recommend</h2>
+        <ol>
+          <li><b>Fund digital search first.</b> Nonbranded search and the combined search and Facebook channel drive by far the most incremental sales.</li>
+          <li><b>Audit outdoor and print.</b> Both show significant <em>negative</em> lift. That rarely means ads hurt sales. More often, spend was timed into weak seasons or the creative and placement aren't working. Either way, it needs a closer look before the next budget cycle.</li>
+        </ol>
+        <div class="callout"><p><b>Caveat I'd raise with stakeholders:</b> λ = 0.5 was fixed for every channel. TV and radio usually decay more slowly than search, so a next iteration would fit λ per channel and test how sensitive the ranking is to it.</p></div>
+
+        <h2>6 · Reproducible by default</h2>
+        <p>The whole analysis is one script, <code>run_analysis.py</code>. A GitHub Actions workflow re-runs it whenever the project changes and commits the refreshed charts and results back to the repo, so the numbers on this page always come from the current code.</p>
+
+        <div class="next-case"><a href="insurance-cost-model.html">← Insurance cost model</a><a href="revenue-integrity-audit.html">Next: Revenue integrity audit →</a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap"><span>© 2026 Grant Jape</span><span><a href="https://github.com/grant-jape/Grant_Jape_Portfolio">View source</a></span></div></footer>
+  <script src="../assets/js/site.js"></script>
+</body>
+</html>
