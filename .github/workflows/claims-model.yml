@@ -1,0 +1,43 @@
+name: 📈 Claims Model – run analysis
+
+# Re-runs the model only when this project's files change.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "projects/claims-model/**"
+      - "!projects/claims-model/charts/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: projects/claims-model   # scripts use paths relative to the project folder
+
+jobs:
+  run_python_analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas numpy matplotlib seaborn statsmodels scikit-learn
+
+      - name: Run analysis
+        run: python run_analysis.py
+
+      - name: Commit updated outputs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 Claims Model: update charts and summary data"
+          file_pattern: >-
+            projects/claims-model/charts/*.png
+            projects/claims-model/data/*.csv

@@ -29,6 +29,7 @@ exclude:
   - "Gemfile.lock"
   - "LICENSE.txt"
   - "README.md"
+  - "projects/"
 
 # ----------------
 # Analytics/Custom Includes

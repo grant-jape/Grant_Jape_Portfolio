@@ -95,7 +95,7 @@ Descriptive statistics for the target variable (`charges`):
 | 75% | \$16,717.37 |
 | Max | \$63,770.43 |
 
-👉 Full summary saved in [`data/charges_summary_stats.csv`](https://raw.githubusercontent.com/grantjamesjape/Claims_model/main/data/charges_summary_stats.csv).
+👉 Full summary saved in [`data/charges_summary_stats.csv`](projects/claims-model/data/charges_summary_stats.csv).
 
 ---
 
@@ -106,7 +106,7 @@ The goal of EDA is to understand how demographic and lifestyle factors relate to
 ---
 
 ### 1) Age & BMI vs. Charges (colored by Smoker)
-![Age and BMI Scatterplots](https://raw.githubusercontent.com/grantjamesjape/Claims_model/main/charts/scatterplots.png)
+![Age and BMI Scatterplots](projects/claims-model/charts/scatterplots.png)
 
 **What we see**
 - **Smokers** (red) have **substantially higher charges** at nearly every age and BMI.
@@ -118,7 +118,7 @@ The goal of EDA is to understand how demographic and lifestyle factors relate to
 ---
 
 ### 2) Charges by Smoker, Region, and Sex
-![Charges by Category Boxplots](https://raw.githubusercontent.com/grantjamesjape/Claims_model/main/charts/boxplots.png)
+![Charges by Category Boxplots](projects/claims-model/charts/boxplots.png)
 
 **What we see**
 - **Smoker:** Median charges are ~**3× higher** for smokers; extreme upper-tail costs are much more common.
@@ -130,7 +130,7 @@ The goal of EDA is to understand how demographic and lifestyle factors relate to
 ---
 
 ### 3) Distribution of Charges (Original vs. Log)
-![Distribution of Charges](https://raw.githubusercontent.com/grantjamesjape/Claims_model/main/charts/distributions.png)
+![Distribution of Charges](projects/claims-model/charts/distributions.png)
 
 **What we see**
 - Raw charges are **right-skewed** with heavy upper tail (large claims).
@@ -141,7 +141,7 @@ The goal of EDA is to understand how demographic and lifestyle factors relate to
 ---
 
 ### 4) Feature Correlation Heatmap
-![Feature Correlation Heatmap](https://raw.githubusercontent.com/grantjamesjape/Claims_model/main/charts/corr.png)
+![Feature Correlation Heatmap](projects/claims-model/charts/corr.png)
 
 **Highlights**
 - `smoker_yes` shows the **strongest positive correlation** with `log_charges` (~+0.67).
@@ -153,7 +153,7 @@ The goal of EDA is to understand how demographic and lifestyle factors relate to
 ---
 
 ### 5) Grouped Descriptive Statistics (Charges by Smoker)
-_Source: [`data/grouped_charges_by_smoker_T.csv`](https://raw.githubusercontent.com/grantjamesjape/Claims_model/main/data/grouped_charges_by_smoker_T.csv)_
+_Source: [`data/grouped_charges_by_smoker_T.csv`](projects/claims-model/data/grouped_charges_by_smoker_T.csv)_
 
 | Statistic | Non-Smoker | Smoker |
 |---|---:|---:|
@@ -314,7 +314,7 @@ An R² of **0.866** suggests that the model explains roughly **87% of the varian
 ---
 
 ## 5️⃣ Actual vs. Predicted Performance
-![Actual vs Predicted Charges](https://raw.githubusercontent.com/grantjamesjape/Claims_model/main/charts/fit.png)
+![Actual vs Predicted Charges](projects/claims-model/charts/fit.png)
 
 A scatterplot of **Actual vs. Predicted** charges (in log scale) demonstrated a strong positive linear alignment —  
 predictions closely follow the true values, validating the model’s consistency.
@@ -384,7 +384,7 @@ The final model achieved a strong fit ($\mathbf{R^2: 0.731}$) and delivered clea
 The initial Exploratory Data Analysis (EDA) flagged a critical issue: perfect correlation ($r=1.00$) between **Branded Search Spend** and **Facebook Spend**. This forced a feature engineering decision to **combine** these two channels into a single feature, **`Search & Facebook`**, to ensure model stability and prevent estimation failure.
 
 **Marketing Spend Correlation Matrix**
-![Correlation Matrix of Marketing Spend Channels](https://raw.githubusercontent.com/grantjamesjape/Bike_Sales_MMM/main/charts/spend_correlation_matrix.png)
+![Correlation Matrix of Marketing Spend Channels](projects/bike-sales-mmm/charts/spend_correlation_matrix.png)
 
 ### 1.2. Feature Engineering (Advanced MMM)
 To capture real-world marketing effects and improve model fidelity, all spend variables were transformed:
@@ -408,7 +408,7 @@ The final OLS model, run on the log-adstock-saturated features, yielded strong p
 The predicted sales line closely tracks the actual sales, validating the model's ability to capture weekly trends over the full period.
 
 **Actual vs. Predicted Sales**
-![Actual vs. Predicted Sales Plot](https://raw.githubusercontent.com/grantjamesjape/Bike_Sales_MMM/main/charts/actual_vs_predicted_sales.png)
+![Actual vs. Predicted Sales Plot](projects/bike-sales-mmm/charts/actual_vs_predicted_sales.png)
 
 ---
 
@@ -430,7 +430,7 @@ The most crucial output is the **Sales Sensitivity Coefficient**, which dictates
 ### Channel Sensitivity Visualization
 
 **Sales Sensitivity (Coefficient) by Marketing Channel**
-![Channel Sensitivity Bar Chart](https://raw.githubusercontent.com/grantjamesjape/Bike_Sales_MMM/main/charts/channel_sensitivity_bar_chart.png)
+![Channel Sensitivity Bar Chart](projects/bike-sales-mmm/charts/channel_sensitivity_bar_chart.png)
 
 ### Actionable Conclusions
 
