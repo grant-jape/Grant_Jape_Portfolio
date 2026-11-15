@@ -112,15 +112,16 @@ code, pre, .mono { font-family: var(--font-mono); }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
 /* ---------- home: hero ---------- */
-.hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 48px; align-items: center; padding-block: 64px 48px; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 48px; align-items: center; padding-block: 56px 32px; }
 .hero-copy { display: grid; gap: 22px; min-width: 0; }
 .hero-copy .lede { font-size: var(--step-1); color: var(--muted); }
-.hero-id { display: flex; align-items: center; gap: 20px; }
-.avatar {
-  width: 96px; height: 96px; max-width: 100%; flex: none;
-  border-radius: 50%; object-fit: cover; border: 1px solid var(--rule);
+.portrait {
+  width: 240px; max-width: 100%; height: auto; aspect-ratio: 4 / 5;
+  object-fit: cover; border-radius: 14px; border: 1px solid var(--rule);
 }
-@media (max-width: 480px) { .avatar { width: 72px; height: 72px; } .hero-id { gap: 14px; } }
+@media (max-width: 480px) { .portrait { width: 180px; } }
+/* the hero already ends with space; don't stack a full section gap on top of it */
+.hero + .section { padding-top: 32px; }
 .figure-card {
   background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius);
   padding: 18px 18px 12px; min-width: 0;
