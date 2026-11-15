@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Grant Jape · Data Scientist</title>
-  <meta name="description" content="Grant Jape is a data scientist who builds predictive models, marketing mix models and SQL pipelines that explain why the numbers move.">
+  <meta name="description" content="Grant Jape is a data scientist who builds forecasting and predictive models, diagnoses why business metrics move, and turns the answers into decisions.">
   <meta property="og:title" content="Grant Jape · Data Scientist">
-  <meta property="og:description" content="Predictive modeling, marketing mix modeling and SQL analytics, with the code and data behind every result.">
+  <meta property="og:description" content="Forecasting, predictive modeling and business diagnostics, with the code and data behind every project.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://grantjape.com/">
   <meta property="og:image" content="https://grantjape.com/assets/img/grant-jape.jpg">
@@ -27,8 +27,9 @@
     <div class="wrap">
       <a class="brand" href="./"><span class="brand-mark">GJ</span>Grant Jape</a>
       <nav class="nav" aria-label="Main">
-        <a href="#work">Work</a>
-        <a href="#skills" class="hide-sm">Skills</a>
+        <a href="#about">About</a>
+        <a href="#work">Projects</a>
+        <a href="#tools" class="hide-sm">Tools</a>
         <a href="#background" class="hide-sm">Background</a>
         <a href="https://docs.google.com/document/d/1X_1XXwFACcReXwQoeo0eHw0murb-CuE3/edit?usp=sharing" target="_blank" rel="noopener">Resume</a>
         <button class="theme-toggle" type="button" aria-label="Switch light or dark theme">
@@ -46,9 +47,9 @@
             <img class="avatar" src="assets/img/grant-jape.jpg" alt="Grant Jape" width="220" height="220">
             <h1>Grant Jape</h1>
           </div>
-          <p class="lede">Data scientist with 8+ years of experience in predictive modeling, marketing mix modeling and SQL. Each project below links to its code and data.</p>
+          <p class="lede">Data scientist with 8+ years of experience. I build forecasting and predictive models, find out why business metrics move, and turn the answers into decisions.</p>
           <div class="actions">
-            <a class="btn primary" href="#work">See the work</a>
+            <a class="btn primary" href="#about">What I do</a>
             <a class="btn" href="https://www.linkedin.com/in/grantjamesjape/" target="_blank" rel="noopener">LinkedIn</a>
           </div>
         </div>
@@ -67,12 +68,34 @@
       </div>
     </section>
 
-    <section class="stats" aria-label="Highlights">
+    <section class="section" id="about">
       <div class="wrap">
-        <div class="stat"><b>8+ yrs</b><span>building and shipping models</span></div>
-        <div class="stat"><b>R² 0.874</b><span>insurance cost model, in dollars</span></div>
-        <div class="stat"><b>260 wks</b><span>of media spend in the MMM</span></div>
-        <div class="stat"><b>244 SKUs</b><span>oversold, caught by a SQL audit</span></div>
+        <div class="section-head">
+          <h2>What I do</h2>
+          <p>I'm a data scientist at a health insurance marketplace that runs real-time auctions for calls and leads. My job is to predict where the business is heading, explain why the numbers moved when they surprise us, and turn both into decisions: what to bid, how to price, where to focus.</p>
+        </div>
+        <div class="skills">
+          <div class="skill">
+            <h3>Forecast and predict</h3>
+            <p>I built and run the weekly revenue forecast: a seasonal time-series model that projects month-close and the next three months for each product line, backtested every week against a naive baseline. I also built a Monte Carlo simulator that predicts how an auction campaign will perform at any bid, with a P10–P90 range instead of a single number.</p>
+            <div class="tags"><span>Time-series (ARIMA)</span><span>Empirical Bayes</span><span>Monte Carlo</span><span>Backtesting</span></div>
+          </div>
+          <div class="skill">
+            <h3>Diagnose what changed</h3>
+            <p>When a metric jumps, I find out why. When one partner's cost per call doubled overnight with no price change, I ruled out the obvious explanations and traced it to a platform migration that had dropped inputs from a bidding model, then sized the excess spend. I break revenue changes into volume, price and mix so teams can see which lever actually moved.</p>
+            <div class="tags"><span>Root-cause analysis</span><span>Controlled comparisons</span><span>Revenue decomposition</span><span>SQL</span></div>
+          </div>
+          <div class="skill">
+            <h3>Inform business decisions</h3>
+            <p>I turn models into recommendations: the bid level where a campaign's volume falls off a cliff, seasonal projections with base and upside scenarios, and the margin at risk if a major buyer pulled out. To find which leads are worth the most, I compared five clustering methods against a supervised model and validated the winner on millions of leads it had never seen.</p>
+            <div class="tags"><span>Pricing</span><span>Scenario planning</span><span>Segmentation</span><span>Stakeholder reporting</span></div>
+          </div>
+          <div class="skill">
+            <h3>Ship it so others can use it</h3>
+            <p>Analysis only helps if people use it. I package models as self-serve web tools and live dashboards for account teams, schedule forecasts to run on their own, and use LLM tooling to automate analyses we repeat, with personal data scrubbed by default.</p>
+            <div class="tags"><span>Python</span><span>Snowflake</span><span>Dashboards</span><span>Automation</span><span>Claude Code</span></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -80,6 +103,7 @@
       <div class="wrap">
         <div class="section-head">
           <h2>Projects</h2>
+          <p>Personal projects, each with its code and data on GitHub.</p>
         </div>
 
         <div class="projects">
@@ -141,32 +165,17 @@
       </div>
     </section>
 
-    <section class="section" id="skills">
+    <section class="section" id="tools">
       <div class="wrap">
         <div class="section-head">
-          <h2>Skills</h2>
+          <h2>Tools</h2>
         </div>
-        <div class="skills">
-          <div class="skill">
-            <h3>Machine learning and modeling</h3>
-            <p>End-to-end model training, tuning and validation in Python. Regression, classification, clustering, gradient boosting, XGBoost and neural networks. Statistical analysis in R.</p>
-            <div class="tags"><span>Python</span><span>scikit-learn</span><span>XGBoost</span><span>R</span></div>
-          </div>
-          <div class="skill">
-            <h3>Visualization and BI</h3>
-            <p>Custom Dash and Plotly apps, plus Tableau, Power BI and Looker Studio dashboards for internal teams and clients.</p>
-            <div class="tags"><span>Dash</span><span>Plotly</span><span>Tableau</span><span>Power BI</span><span>Looker Studio</span></div>
-          </div>
-          <div class="skill">
-            <h3>Data engineering and ETL</h3>
-            <p>Expert SQL (CTEs, window functions, complex joins), automated data collection, and DataOps pipelines that keep models monitored after launch.</p>
-            <div class="tags"><span>SQL</span><span>PostgreSQL</span><span>GitHub Actions</span></div>
-          </div>
-          <div class="skill">
-            <h3>Business strategy</h3>
-            <p>Revenue and time-series forecasting, KPI monitoring, cross-channel campaign optimization, A/B testing and executive reporting.</p>
-            <div class="tags"><span>Forecasting</span><span>MMM</span><span>A/B testing</span></div>
-          </div>
+        <div class="timeline">
+          <div class="tl-item"><span class="when">Modeling</span><div><p>Python (pandas, NumPy, SciPy, scikit-learn, statsmodels, XGBoost), R</p></div></div>
+          <div class="tl-item"><span class="when">Methods</span><div><p>Time-series forecasting (ARIMA, SARIMA), regression and classification, gradient boosting, clustering, Monte Carlo simulation, empirical Bayes, A/B testing, backtesting</p></div></div>
+          <div class="tl-item"><span class="when">Data</span><div><p>SQL (Snowflake, PostgreSQL), ETL pipelines, APIs, data-quality audits</p></div></div>
+          <div class="tl-item"><span class="when">Visualization</span><div><p>Tableau, Power BI, Looker Studio, Plotly and Dash, Matplotlib, custom web dashboards</p></div></div>
+          <div class="tl-item"><span class="when">Workflow</span><div><p>Git and GitHub Actions, Excel, Claude Code and LLM automation</p></div></div>
         </div>
       </div>
     </section>
